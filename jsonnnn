@@ -1,0 +1,38 @@
+import pandas as pd
+import json
+import time
+from pandas.io.json import json_normalize
+def flatten_json(y):
+    out = {}
+
+    def flatten(x, name='root/',t=""):
+        #if type(x) is dict:
+        if isinstance(x,dict):
+            for a in x:
+                flatten(x[a], name + a + '/',t)
+        elif type(x) is list:
+            for a in x:
+                if t == "l":
+                    flatten(a, name+"tttt/","l")
+                else:
+                    flatten(a, name,"l")
+                print("======================")
+                print(out)
+        else:
+            #print(str(name[:-1]),str(x))
+            out[str(name[:-1])] = str(x)
+
+
+    flatten(y)
+    return out
+
+with open('test.json', 'r') as file:
+    data1 = file.read().replace('\n', '')
+data=json.loads(data1.encode("utf-8"))
+time.clock()
+print(time.time())
+#df = pd.io.json.json_normalize(data)
+#print(data1)
+flatten_json(data)
+
+print(time.time())
